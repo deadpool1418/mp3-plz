@@ -31,7 +31,7 @@ def sendSong(update, context):
         url = update.message.text;
         success = ''
         failure = ''
-        if(str(update.message.chat.username) == None):
+        if(update.message.chat.username == None):
             success = "Download your mp3 file... \n" + "Please set a username so I can call you with your username.\n" + "Have a great day " + "\U0001f600"
             failure = "Please check the url... \n" + "Please set a username so I can call you with your username.\n" + "Have a great day " + "\U0001f600"
         else:
