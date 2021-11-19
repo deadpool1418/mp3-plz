@@ -36,8 +36,8 @@ def error(update, context):
     logger.warning('Update "%s" caused error "%s"', update, context.error)
 
 def getSong(update, context):
-    url = update.message.text;
-    try:
+        url = update.message.text;
+    # try:
         video_url = input("please enter youtube video url:")
         video_info = youtube_dl.YoutubeDL().extract_info(
             url = video_url,download=False
@@ -54,8 +54,9 @@ def getSong(update, context):
 
         print("Download complete... {}".format(filename))
         context.bot.send_audio(chat_id=update.message.chat_id, audio=open(filename, 'rb'))
-    except Exception as e:
-        update.message.reply_text("Invalid Url")
+        os.remove(filename)
+    # except Exception as e:
+    #     update.message.reply_text("Invalid Url")
 
 def main():
     """Start the bot."""
