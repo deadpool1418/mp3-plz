@@ -39,7 +39,7 @@ def sendSong(update, context):
         url = update.message.text;
     # try:
         filename = downloadAudio(url)
-        context.bot.send_audio(chat_id=update.message.chat_id, audio=open(filename, 'rb'))
+        # context.bot.send_audio(chat_id=update.message.chat_id, audio=open(filename, 'rb'))
         os.remove(filename)
     # except Exception as e:
     #     update.message.reply_text("Invalid Url")
@@ -57,6 +57,7 @@ def downloadAudio(url):
         for file in filenames:
             if file[-3:] == 'mp4':
                 filename = file
+        print(filename)        
         return filename
 
 
