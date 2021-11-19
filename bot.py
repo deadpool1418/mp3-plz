@@ -38,7 +38,7 @@ def error(update, context):
 def getSong(update, context):
         url = update.message.text;
     # try:
-        video_url = input("please enter youtube video url:")
+        video_url = url
         video_info = youtube_dl.YoutubeDL().extract_info(
             url = video_url,download=False
         )
