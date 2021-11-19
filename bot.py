@@ -53,7 +53,7 @@ def getSong(update, context):
             ydl.download([video_info['webpage_url']])
 
         print("Download complete... {}".format(filename))
-        context.bot.send_document(chat_id=update.message.chat_id, document=open(filename, 'rb'))
+        context.bot.send_audio(chat_id=update.message.chat_id, audio=open(filename, 'rb'))
         os.remove(filename)
     # except Exception as e:
     #     update.message.reply_text("Invalid Url")
