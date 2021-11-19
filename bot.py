@@ -52,7 +52,12 @@ def downloadAudio(url):
 
         # download into working directory
         stream.download()
-        return yt.title + '.mp3'
+        filenames = os.listdir('.')
+        filename = ''
+        for file in filenames:
+            if file[-3:] == 'mp4':
+                filename = file
+        return filename
 
 
 def main():
@@ -89,3 +94,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
