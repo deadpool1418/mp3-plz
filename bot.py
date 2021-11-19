@@ -29,13 +29,21 @@ def help(update, context):
 
 def sendSong(update, context):
         url = update.message.text;
+        success = ''
+        failure = ''
+        if(str(update.message.chat.username) == None):
+            success = "Download your mp3 file... \n" + "Please set a username so I can call you with your username.\n" + "Have a great day " + "\U0001f600"
+            failure = "Please check the url... \n" + "Please set a username so I can call you with your username.\n" + "Have a great day " + "\U0001f600"
+        else:
+            success = "Download your mp3 file... \n" + "Have a great day " + str(update.message.chat.username) + " " + "\U0001f600"
+            failure = "Please check the url... \n" + "Have a great day " + str(update.message.chat.username) + " " + "\U0001f600"
         try:
             filename = downloadAudio(url)
             context.bot.send_audio(chat_id=update.message.chat_id, audio=open(filename, 'rb'))
             os.remove(filename)
-            update.message.reply_text("Download your mp3 file... \n" + "Have a great day " + str(update.message.chat.username) + " " + "\U0001f600")
+            update.message.reply_text(success)
         except Exception as e:
-            update.message.reply_text("Please check the url... \n" + "Have a great day " + str(update.message.chat.username) + " " + "\U0001f600")
+            update.message.reply_text(failure)
 
 def downloadAudio(url):
         video_url = url
