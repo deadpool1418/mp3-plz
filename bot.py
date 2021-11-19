@@ -52,7 +52,7 @@ def downloadAudio(url):
 
         # download into working directory
         stream.download()
-        return yt.title
+        return yt.title + '.mp3'
 
 
 def main():
