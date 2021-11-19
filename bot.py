@@ -7,7 +7,7 @@ Author: liuhh02 https://medium.com/@liuhh02
 import logging
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import os
-import youtube_dl
+from pytube import YouTube
 PORT = int(os.environ.get('PORT', 5000))
 
 # Enable logging
@@ -35,28 +35,25 @@ def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
 
-def getSong(update, context):
+def sendSong(update, context):
         url = update.message.text;
     # try:
-        video_url = url
-        video_info = youtube_dl.YoutubeDL().extract_info(
-            url = video_url,download=False
-        )
-        filename = f"{video_info['title']}.mp3"
-        options={
-            'format':'bestaudio/best',
-            'keepvideo':False,
-            'outtmpl':filename,
-        }
-
-        with youtube_dl.YoutubeDL(options) as ydl:
-            ydl.download([video_info['webpage_url']])
-
-        print("Download complete... {}".format(filename))
+        filename = downloadAudio(url)
         context.bot.send_audio(chat_id=update.message.chat_id, audio=open(filename, 'rb'))
         os.remove(filename)
     # except Exception as e:
     #     update.message.reply_text("Invalid Url")
+
+def downloadAudio(url):
+        video_url = url
+        yt = YouTube(video_url)
+        stream = yt.streams.filter(only_audio=True).first()
+        # downloading a video would be: stream = yt.streams.first() 
+
+        # download into working directory
+        stream.download()
+        return yt.title
+
 
 def main():
     """Start the bot."""
