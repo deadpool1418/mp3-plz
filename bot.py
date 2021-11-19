@@ -27,37 +27,26 @@ def help(update, context):
     """Send a message when the command /help is issued."""
     update.message.reply_text('Help!')
 
-def echo(update, context):
-    """Echo the user message."""
-    update.message.reply_text(update.message.text)
-
-def error(update, context):
-    """Log Errors caused by Updates."""
-    logger.warning('Update "%s" caused error "%s"', update, context.error)
-
 def sendSong(update, context):
         url = update.message.text;
-    # try:
-        filename = downloadAudio(url)
-        context.bot.send_audio(chat_id=update.message.chat_id, audio=open(filename, 'rb'))
-        os.remove(filename)
-    # except Exception as e:
-    #     update.message.reply_text("Invalid Url")
+        try:
+            filename = downloadAudio(url)
+            context.bot.send_audio(chat_id=update.message.chat_id, audio=open(filename, 'rb'))
+            os.remove(filename)
+            update.message.reply_text("Download your mp3 file..." + "Have a great day " + update.message.chat.username)
+        except Exception as e:
+            update.message.reply_text("Please check the url..." + "Have a great day " + update.message.chat.username)
 
 def downloadAudio(url):
         video_url = url
         yt = YouTube(video_url)
         stream = yt.streams.filter(only_audio=True).first()
-        # downloading a video would be: stream = yt.streams.first() 
-
-        # download into working directory
         stream.download()
         filenames = os.listdir('.')
         filename = ''
         for file in filenames:
             if file[-3:] == 'mp4':
-                filename = file
-        print(filename)        
+                filename = file    
         return filename
 
 
@@ -78,9 +67,6 @@ def main():
     # on noncommand i.e message - echo the message on Telegram
     # dp.add_handler(MessageHandler(Filters.text, echo))
     dp.add_handler(MessageHandler(Filters.text, sendSong))
-
-    # log all errors
-    dp.add_error_handler(error)
 
     # Start the Bot
     updater.start_webhook(listen="0.0.0.0",
