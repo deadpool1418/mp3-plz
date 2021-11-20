@@ -38,6 +38,7 @@ def sendSong(update, context):
             success = "Download your mp3 file... \n" + "Have a great day " + str(update.message.chat.username) + " " + "\U0001f600"
             failure = "Please check the url... \n" + "Have a great day " + str(update.message.chat.username) + " " + "\U0001f600"
         try:
+            update.message.reply_text("Processing Your Request " + '\U0000231B')
             filename = downloadAudio(url)
             context.bot.send_audio(chat_id=update.message.chat_id, audio=open(filename, 'rb'))
             os.remove(filename)
